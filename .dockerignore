@@ -2,9 +2,6 @@
 .git/
 .github/
 
-# Symfony Cache & Logs
-var/
-
 # Dipendenze che vengono reinstallate
 vendor/
 node_modules/
