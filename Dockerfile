@@ -1,21 +1,19 @@
 # --- Stage 1: Installa le dipendenze con Composer ---
-# Usiamo un'immagine ufficiale di Composer per questo passaggio
 FROM composer:2 as vendor
 
 WORKDIR /app
 
-# Copiamo solo i file necessari per installare le dipendenze
-# Questo ottimizza la cache di Docker
-COPY composer.json composer.lock ./
-# Installiamo solo le dipendenze di produzione, in modo ottimizzato
+# PRIMA copiamo TUTTI i file dell'applicazione
+COPY . .
+
+# ORA lanciamo composer install, che troverà il file bin/console
 RUN composer install --no-dev --no-interaction --optimize-autoloader
 
 
 # --- Stage 2: Crea l'immagine finale di produzione ---
-# Partiamo da un'immagine ufficiale che include PHP e il server web Apache
 FROM php:8.3-apache
 
-# Installiamo le estensioni PHP necessarie a Symfony per parlare con PostgreSQL
+# Installiamo le estensioni PHP necessarie
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libzip-dev \
@@ -30,11 +28,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 RUN a2enmod rewrite
 
-# Copiamo tutto il codice della nostra applicazione
+# Copiamo l'applicazione GIA PRONTA (con la cartella vendor inclusa) dallo stage precedente
 WORKDIR /var/www/html
-COPY . .
-# Copiamo la cartella vendor/ già pronta dallo stage precedente
-COPY --from=vendor /app/vendor/ ./vendor/
+COPY --from=vendor /app .
 
-# Impostiamo i permessi corretti per le cartelle di cache e log di Symfony
+# Impostiamo i permessi corretti
 RUN chown -R www-data:www-data var
