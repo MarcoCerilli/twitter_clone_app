@@ -13,4 +13,4 @@
 /public/build/
 ###< pentatrion/vite-bundle ###
 Dockerfile
-docker-compose.yaml
+docker-compose.yml
