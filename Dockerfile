@@ -2,7 +2,7 @@
 FROM composer:2 as vendor
 WORKDIR /app
 COPY . .
-# Passiamo l'argomento APP_ENV per ottimizzare l'autoloader per la produzione
+# Passiamo l'argomento APP_ENV per ottimizzare i comandi per la produzione
 ARG APP_ENV=prod
 RUN composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
 
