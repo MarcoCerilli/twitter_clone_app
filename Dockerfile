@@ -3,10 +3,10 @@ FROM composer:2 as vendor
 
 WORKDIR /app
 
-# Copiamo tutto il codice sorgente
+# PRIMA copiamo TUTTI i file dell'applicazione
 COPY . .
 
-# Installiamo le dipendenze SENZA eseguire gli script post-installazione
+# ORA lanciamo composer install, SENZA script
 RUN composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
 
 
@@ -14,7 +14,6 @@ RUN composer install --no-dev --no-interaction --optimize-autoloader --no-script
 FROM php:8.3-apache
 
 # Impostiamo le variabili d'ambiente di produzione di Symfony
-# Questo dice a Symfony di non cercare il file .env
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
@@ -37,8 +36,5 @@ RUN a2enmod rewrite
 WORKDIR /var/www/html
 COPY --from=vendor /app .
 
-# Creiamo la cache di Symfony in modo sicuro per la produzione
-RUN bin/console cache:warmup
-
-# Impostiamo i permessi corretti
+# Impostiamo i permessi corretti (NON creiamo più la cache qui)
 RUN chown -R www-data:www-data var
