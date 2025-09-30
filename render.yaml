@@ -10,7 +10,7 @@ services:
     plan: free
     env: php
     buildCommand: |
-      composer install --no-dev --no-interaction --optimize-autloader
+      composer install --no-dev --no-interaction --optimize-autoload
       php bin/console doctrine:migrations:migrate --no-interaction
     startCommand: vendor/bin/heroku-php-apache2 public/
     envVars:
