@@ -79,7 +79,9 @@
             "allow-contrib": false,
             "require": "7.3.*",
             "docker": false
-        }
+        },
+        "description": "My Twitter Clone"
+
     },
     "require-dev": {
         "doctrine/data-fixtures": "^2.1",
