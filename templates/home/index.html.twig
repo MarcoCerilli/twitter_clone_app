@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% import 'macros.html.twig' as macros %}
+
+{% block title %}Benvenuto in symfony 7{% endblock %}
+
+{% block page_header %}
+{#     <h1 class="text-center my-5">Benvenuto in Twitter_X</h1>
+ #}{% endblock %}
+{% block body_class 'homepage-background' %}
+
+{% block body %}
+    <nav aria-label="breadcrumb" class="my-4">
+        <ol class="breadcrumb"> {# RIMUOVI QUI LA CLASSE text-primary #}
+            {{ macros.breadcrumbs(breadcrumbs) }}
+        </ol>
+    </nav>
+    
+    <div class="container">
+        <p class="text-center mt-4">Benvenuto nella tua homepage!</p>
+    </div>
+{% endblock %}

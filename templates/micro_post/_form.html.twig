@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.title, 'Titolo', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.text, 'Testo', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.text, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+    </div>
+{{ form_end(form) }}

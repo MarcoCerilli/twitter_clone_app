@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% import 'macros.html.twig' as macros %}
+
+
+{% block title %}Registrati
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="form-container text-white">
+			<h1 class="h3 mb-3 font-weight-normal">Registrati</h1>
+
+			{{ form_start(registrationForm) }}
+
+			{# --- Sezione Dati Account --- #}
+			{{ form_row(registrationForm.email) }}
+			{{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                }) }}
+
+			<hr
+			class="my-4">
+
+			{# --- Sezione Dati Profilo --- #}
+			<h2 class="h4 mb-3">Crea il tuo Profilo</h2>
+			{{ form_row(registrationForm.userProfile.username) }}
+			{{ form_row(registrationForm.userProfile.bio) }}
+			{{ form_row(registrationForm.userProfile.twitterUsername) }}
+			{{ form_row(registrationForm.userProfile.websiteUrl) }}
+			{{ form_row(registrationForm.userProfile.company) }}
+			{{ form_row(registrationForm.userProfile.location) }}
+			{{ form_row(registrationForm.userProfile.dateOfBirth) }}
+
+			<hr
+			class="my-4">
+
+			{# --- Sezione Termini e Pulsante --- #}
+			{{ form_row(registrationForm.agreeTerms) }}
+
+			{# ✅ CORREZIONE: Bottone spostato su una nuova riga per un layout corretto #}
+			<button type="submit" class="btn btn-primary w-100 mt-3">Registrati</button>
+
+			{{ form_end(registrationForm) }}
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{# templates/user_profile/_profile_form.html.twig (o il percorso corretto) #}
+{# QUESTO FILE CONTIENE SOLO I CAMPI DEL FORM #}
+
+<div class="mb-3">
+    {{ form_label(form.username) }}
+    {{ form_widget(form.username) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.bio) }}
+    {{ form_widget(form.bio) }}
+</div>
+
+{# Riga con due colonne per Twitter e Website (con classi Bootstrap) #}
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {{ form_label(form.twitterUsername) }}
+        {{ form_widget(form.twitterUsername) }}
+    </div>
+    <div class="col-md-6 mb-3">
+        {{ form_label(form.websiteUrl) }}
+        {{ form_widget(form.websiteUrl) }}
+    </div>
+</div>
+
+{# Riga con due colonne per Company e Location (con classi Bootstrap) #}
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {{ form_label(form.company) }}
+        {{ form_widget(form.company) }}
+    </div>
+    <div class="col-md-6 mb-3">
+        {{ form_label(form.location) }}
+        {{ form_widget(form.location) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.dateOfBirth) }}
+    {{ form_widget(form.dateOfBirth) }}
+</div>

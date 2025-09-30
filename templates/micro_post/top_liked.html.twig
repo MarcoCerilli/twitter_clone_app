@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% import 'macros.html.twig' as macros %}
+
+{% block title %}Post con più like
+{% endblock %}
+
+{% block page_header %}
+	<h1 class="text-center my-5">Post con più like</h1>
+{% endblock %}
+
+{% block body %}
+ 
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<div>
+			{{ macros.breadcrumbs(breadcrumbs) }}
+		</div>
+
+		{# Elemento 2: Il pulsante "Aggiungi Post" (verrà spinto a destra) #}
+		<div>
+			{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isVerified %}
+				<a href="{{ path('app_micro_post_add') }}" class="btn btn-primary">
+					<i class="bi bi-plus-lg"></i>
+					Nuovo Post
+				</a>
+			{% endif %}
+		</div>
+
+	</div>
+
+	<div
+		class="container my-5">
+		{# ✅ 2. Usiamo una condizione 'if' più idiomatica #}
+		{% if posts is not empty %}
+			<div class="row">
+				{% for post in posts %}
+					<div
+						class="col-md-6 mb-4">
+						{# ✅ 3. Usiamo una sintassi 'include' più breve (opzionale) #}
+						{% include 'micro_post/_post.html.twig' with {post: post} %}
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class="text-center py-5">
+				<p class="fs-4 text-muted">Nessun post da mostrare!</p>
+				{# Potresti aggiungere un pulsante per incoraggiare a creare il primo post #}
+				<a href="#" class="btn btn-primary mt-3">Crea il tuo primo post</a>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

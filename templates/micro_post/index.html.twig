@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% import 'macros.html.twig' as macros %}
+
+{% block title %}Tutti i Post
+{% endblock %}
+
+{# Non usiamo più il blocco page_header, quindi puoi anche cancellarlo #}
+{% block page_header %}{% endblock %}
+
+{% block body %}
+	{# 1. Titolo e pulsanti di navigazione ora sono all'inizio del body #}
+	<h1 class="text-center mb-4">Tutti i Post</h1>
+	<div class="text-center mb-5">
+		<a href="{{ path('app_micro_post') }}" data-turbo-preload class="btn btn-primary mx-2">Tutti i Post</a>
+		<a href="{{ path('app_micro_post_topliked') }}" data-turbo-preload class="btn btn-secondary mx-2">Più Votati</a>
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<a href="{{ path('app_micro_post_follows') }}" data-turbo-preload class="btn btn-info mx-2">Seguiti</a>
+		{% endif %}
+	</div>
+
+	{# 2. Barra con breadcrumbs e pulsante "Nuovo Post" #}
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<div>
+			{{ macros.breadcrumbs(breadcrumbs) }}
+		</div>
+		<div>
+			{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isVerified %}
+				<a href="{{ path('app_micro_post_add') }}" class="btn btn-primary">
+					<i class="bi bi-plus-lg"></i>
+					Nuovo Post
+				</a>
+			{% endif %}
+		</div>
+	</div>
+
+	{# 3. Griglia dei post (il tuo codice era già perfetto) #}
+	<div class="container my-5">
+		{% if posts is not empty %}
+			<div class="row">
+				{% for post in posts %}
+					<div class="col-md-6 mb-4">
+						{% include 'micro_post/_post.html.twig' with {post: post} %}
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class="text-center py-5">
+				<p class="fs-4 text-muted">Nessun post da mostrare!</p>
+				{# ✅ CORREZIONE: Ora questo pulsante porta alla pagina corretta per creare un post #}
+				<a href="{{ path('app_micro_post_add') }}" class="btn btn-primary mt-3">Crea il tuo primo post</a>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{# templates/micro_post/_comment.html.twig #}
+
+<div class="card bg-secondary text-white my-3">
+	<div class="card-body">
+		<div
+			class="d-flex align-items-center mb-2">
+			{# Avatar dell'autore del commento #}
+			<div class="rounded-circle avatar-custom-color d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+				<i class="fas fa-user fa-lg text-white"></i>
+			</div>
+
+			{# Nome utente e data #}
+			<div class="ms-3">
+				<h6 class="mb-0">
+					@{{ comment.user.userProfile ? comment.user.userProfile.username : comment.user.email }}
+				</h6>
+				<small class="text-white-50">Inviato il:
+					{{ comment.created|date('d/m/Y') }}</small>
+			</div>
+		</div>
+
+		{# Testo del commento #}
+		<p class="card-text mt-3">{{ comment.text }}</p>
+	</div>
+</div>

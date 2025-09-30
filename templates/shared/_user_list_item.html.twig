@@ -1,0 +1,14 @@
+{# templates/shared/_user_list_item.html.twig #}
+{# Questo partial si aspetta di ricevere una variabile 'user' #}
+
+<div class="d-flex align-items-center p-2 border-bottom">
+    <img src="https://ui-avatars.com/api/?name={{ user.userProfile.username|default(user.email) }}&background=random" class="rounded-circle me-3" alt="Avatar" width="50" height="50">
+    <div>
+        <a href="{{ path('app_profile', {'user': user.id}) }}" class="text-white fw-bold text-decoration-none">
+            {{ user.userProfile.username|default(user.email) }}
+        </a>
+        {% if user.userProfile and user.userProfile.bio %}
+            <p class="text-muted small mb-0">{{ user.userProfile.bio|slice(0, 50) }}...</p>
+        {% endif %}
+    </div>
+</div>

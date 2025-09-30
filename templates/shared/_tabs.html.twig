@@ -1,0 +1,47 @@
+{# templates/shared/_tabs.html.twig #}
+
+{# Questo template si aspetta una variabile 'user' per creare i link e i conteggi #}
+
+{# 1. Navigazione delle Tab (i pulsanti) #}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts-tab-pane" type="button" role="tab" aria-controls="posts-tab-pane" aria-selected="true">
+            Post ({{ user.microPosts|length }})
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="following-tab" data-bs-toggle="tab" data-bs-target="#following-tab-pane" type="button" role="tab" aria-controls="following-tab-pane" aria-selected="false">
+            Seguiti ({{ user.follows|length }})
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="followers-tab" data-bs-toggle="tab" data-bs-target="#followers-tab-pane" type="button" role="tab" aria-controls="followers-tab-pane" aria-selected="false">
+            Follower ({{ user.followers|length }})
+        </button>
+    </li>
+</ul>
+
+{# 2. Contenuto delle Tab #}
+<div class="tab-content" id="myTabContent">
+    {# Pannello per i "Post" #}
+    <div class="tab-pane fade show active" id="posts-tab-pane" role="tabpanel" aria-labelledby="posts-tab" tabindex="0">
+        {# ✅ Questo è il "buco" che la pagina del profilo riempirà con la lista dei post #}
+        {% block posts_tab %}{% endblock %}
+    </div>
+
+    {# Pannello per i "Seguiti" #}
+    <div class="tab-pane fade" id="following-tab-pane" role="tabpanel" aria-labelledby="following-tab" tabindex="0">
+        {# Qui potresti riempire con la lista degli utenti seguiti #}
+        {% block following_tab %}
+            <p class="p-3 text-muted">Funzionalità da implementare...</p>
+        {% endblock %}
+    </div>
+
+    {# Pannello per i "Follower" #}
+    <div class="tab-pane fade" id="followers-tab-pane" role="tabpanel" aria-labelledby="followers-tab" tabindex="0">
+        {# Qui potresti riempire con la lista dei follower #}
+        {% block followers_tab %}
+            <p class="p-3 text-muted">Funzionalità da implementare...</p>
+        {% endblock %}
+    </div>
+</div>

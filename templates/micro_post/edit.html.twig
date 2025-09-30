@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% import 'macros.html.twig' as macros %}
+
+{% block title %}Modifica Post{% endblock %}
+
+{% block page_header %}
+    <h1 class="text-center my-5">Modifica Post</h1>
+{% endblock %}
+
+{% block body %}
+    {{ macros.breadcrumbs(breadcrumbs) }}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {{ include('micro_post/_form.html.twig', {'form': form}) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

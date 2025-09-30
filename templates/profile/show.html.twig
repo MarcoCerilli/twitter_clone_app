@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+{% import 'macros.html.twig' as macros %}
+
+{% block title %}Profilo di
+	{{ user.userProfile.username|default('utente') }}
+{% endblock %}
+
+{% block page_header %}
+	{# Queste righe sono per il debug, ricordati di toglierle dopo! #}
+	{# {{ dump(app.user) }}
+																{{ dump(user) }} #}
+		<h1 class="text-center my-5"> Profilo di
+		{{ user.userProfile.username|default(user.email) }}</h1>
+{% endblock %}
+
+{% block body %}
+	{# Potresti voler aggiungere dei breadcrumbs anche qui, passandoli dal controller #}
+	{{ macros.breadcrumbs(breadcrumbs) }}
+
+	<div
+		class="container">
+		{# --- SEZIONE 1: INFORMAZIONI DEL PROFILO --- #}
+		<div class="row justify-content-center mb-5">
+			<div class="col-12 col-md-8 text-center bg-light text-dark p-4 rounded shadow-sm">
+				{% if user.userProfile and user.userProfile.image %}
+					<img src="{{ asset('uploads/avatars/' ~ user.userProfile.image) }}" class="rounded-circle mb-3 profile-avatar" alt="Avatar di {{ user.userProfile.username|default(user.email) }}">
+				{% else %}
+					<img src="https://ui-avatars.com/api/?name=..." class="rounded-circle mb-3 profile-avatar" alt="Avatar di {{ user.userProfile.username|default(user.email) }}">
+				{% endif %}
+				<h2 class="mb-3">{{ user.userProfile.username|default('Nessun username impostato') }}</h2>
+
+				{% if user.userProfile.bio %}
+					<p class="text-muted">
+						<em>"{{ user.userProfile.bio }}"</em>
+					</p>
+				{% endif %}
+
+				<div class="mt-3">
+					{% if user.userProfile.location %}
+						<span>
+							<i class="bi bi-geo-alt-fill"></i>
+							{{ user.userProfile.location }}</span>
+					{% endif %}
+					{% if user.userProfile.websiteUrl %}
+						<a href="{{ user.userProfile.websiteUrl }}" target="_blank" class="ms-3 text-decoration-none">
+							<i class="bi bi-link-45deg"></i>
+							Sito Web
+						</a>
+					{% endif %}
+				</div>
+
+				{% if app.user and app.user == user %}
+					<a href="{{ path('app_settings_profile') }}" class="btn btn-secondary mt-4">
+						<i class="bi bi-pencil-square"></i>
+						Modifica Profilo
+					</a>
+				{% endif %}
+				{{ include('follower/_follow_button.html.twig', {user: user}) }}
+
+			</div>
+		</div>
+
+		<hr
+		class="my-5">
+
+		{# --- SEZIONE 2: TAB --- #}
+		<div class="row justify-content-center mt-4">
+			<div class="col-12 col-md-8">
+
+				{% embed 'shared/_tabs.html.twig' with {user: user} %}
+
+					{# ✅ BLOCCO PER I POST (REINSERITO) #}
+					{% block posts_tab %}
+						<div class="mt-3">
+							{% for post in posts %}
+								{{ include('micro_post/_post.html.twig', {post: post}) }}
+							{% else %}
+								<div class="card card-body text-center">
+									<p class="text-secondary mb-0">Questo utente non ha ancora pubblicato nessun post.</p>
+								</div>
+							{% endfor %}
+						</div>
+					{% endblock %}
+
+					{# ✅ Blocco SEGUITI (ora è molto più pulito) #}
+					{% block following_tab %}
+						<div class="mt-3">
+							{% for user_followed in user.follows %}
+								{{ include('shared/_user_list_item.html.twig', {user: user_followed}) }}
+							{% else %}
+								<div class="card card-body text-center">
+									<p class="text-secondary mb-0">Questo utente non sta seguendo nessuno.</p>
+								</div>
+							{% endfor %}
+						</div>
+					{% endblock %}
+
+					{# ✅ Blocco FOLLOWER (ora è facilissimo da implementare!) #}
+					{% block followers_tab %}
+						<div class="mt-3">
+							{% for follower in user.followers %}
+								{{ include('shared/_user_list_item.html.twig', {user: follower}) }}
+							{% else %}
+								<div class="card card-body text-center">
+									<p class="text-secondary mb-0">Questo utente non ha nessun follower.</p>
+								</div>
+							{% endfor %}
+						</div>
+					{% endblock %}
+				{% endembed %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

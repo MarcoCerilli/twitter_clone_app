@@ -1,0 +1,23 @@
+{# 
+  Questo partial si aspetta di ricevere una variabile 'user', 
+  che rappresenta l'utente del profilo che stiamo visualizzando.
+#}
+
+{# Primo controllo: il visitatore deve essere loggato E non deve essere sulla sua stessa pagina profilo #}
+{% if app.user and app.user != user %}
+
+    {# Secondo controllo: l'utente loggato segue già questo profilo? #}
+    {% if user in app.user.follows %}
+
+        {# Se SÌ, mostra il pulsante "Unfollow" #}
+<a href="{{ path('app_unfollow', {'userToUnfollow': user.id}) }}" class="btn btn-secondary mt-4">
+Non seguire più
+</a>
+{% else %}
+ {# Se NO, mostra il pulsante "Follow" #}
+        <a href="{{ path('app_follow', {'userToFollow': user.id}) }}" class="btn btn-primary mt-4">
+            Segui
+        </a>
+
+{% endif %}
+{% endif %}

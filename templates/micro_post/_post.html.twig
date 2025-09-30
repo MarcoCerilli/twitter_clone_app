@@ -1,0 +1,70 @@
+{# templates/micro_post/_post.html.twig (versione corretta) #}
+
+<div class="card bg-dark text-white my-4 shadow-sm h-100">
+	<div
+		class="card-body d-flex flex-column">
+
+		{# ======= SEZIONE AUTORE E DATA ======= #}
+		<div
+			class="d-flex align-items-center mb-3">
+			{# ✅ CORREZIONE: Ora la logica if/else è strutturata correttamente #}
+			{% if post.author.userProfile and post.author.userProfile.image %}
+				{# Se l'utente HA un'immagine, mostra quella caricata #}
+				<img src="{{ asset('uploads/avatars/' ~ post.author.userProfile.image) }}" class="rounded-circle" alt="Avatar di {{ post.author.userProfile.username|default(post.author.email) }}" width="50" height="50">
+			{% else %}
+				{# ALTRIMENTI, mostra il placeholder #}
+				<img src="https://ui-avatars.com/api/?name={{ post.author.userProfile.username|default(post.author.email)|url_encode }}&background=random&color=fff" class="rounded-circle" alt="Avatar di {{ post.author.userProfile.username|default(post.author.email) }}" width="50" height="50">
+			{% endif %}
+
+			<div class="ms-3">
+				<a href="{{ path('app_profile', {'user': post.author.id}) }}" class="text-white fw-bold text-decoration-none">
+					{{ post.author.userProfile.username|default(post.author.email) }}
+				</a>
+				<small class="text-secondary d-block">Data:
+					{{ post.created|date('d/m/Y') }}</small>
+			</div>
+		</div>
+
+		{# ======= TITOLO E TESTO DEL POST ======= #}
+		<h5 class="card-title mb-3">
+			<a href="{{ path('app_micro_post_show', {'post': post.id}) }}" class="text-white text-decoration-none">
+				{{ post.title }}
+			</a>
+		</h5>
+
+		<p class="card-text text-secondary mb-4">{{ post.text|slice(0, 150) }}{{ post.text|length > 150 ? '...' : '' }}</p>
+
+		{# ======= SEZIONE FOOTER CON LIKE, COMMENTI E AZIONI ======= #}
+		<div class="mt-auto border-top border-secondary pt-3 post-footer">
+			<div
+				class="d-flex align-items-center">
+				{# LIKE #}
+				<a href="{{ path('app_micro_post_like', {'post': post.id}) }}" class="d-flex align-items-center me-3 text-decoration-none text-secondary">
+					<i class="far fa-thumbs-up me-2"></i>
+					<small>
+						{% set likeCount = post.likedBy|length %}
+						{{ likeCount > 0 ? likeCount : 'Nessun mi piace' }}
+					</small>
+				</a>
+
+				{# COMMENTI #}
+				<a href="{{ path('app_micro_post_show', {'post': post.id}) }}" class="d-flex align-items-center text-decoration-none text-secondary">
+					<i class="far fa-comment me-2"></i>
+					<small>
+						{% set commentCount = post.comments|length %}
+						{{ commentCount }}
+						{{ commentCount == 1 ? 'Commento' : 'Commenti' }}
+					</small>
+				</a>
+			</div>
+
+			<div>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user == post.author %}
+					<a href="{{ path('app_micro_post_edit', {'post': post.id}) }}" class="btn btn-sm btn-primary">
+						Modifica
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

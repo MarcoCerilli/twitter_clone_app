@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% import 'macros.html.twig' as macros %}
+
+
+{% block title %}Dettaglio Messaggio{% endblock %}
+
+{% block page_header %}
+    <h1 class="text-center my-5">Dettaglio Post</h1>
+{% endblock %}
+
+{% block body %}
+    {{ macros.breadcrumbs(breadcrumbs) }}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                {{ include('micro_post/_post.html.twig', {post: post}) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="text-white">Commenti ({{ comments|length }})</h2>
+        <div class="comments-list mt-3">
+            {% for comment in comments %}
+                {% include 'micro_post/_comment.html.twig' with {'comment': comment} %}
+            {% else %}
+                <p class="text-secondary">Nessun commento ancora.</p>
+            {% endfor %}
+        </div>
+        
+        <div class="mt-4">
+            <a href="{{ path('app_micro_post_comment', {'post': post.id}) }}" class="btn btn-primary">
+                Aggiungi un commento
+            </a>
+        </div>
+    </div>
+{% endblock %}

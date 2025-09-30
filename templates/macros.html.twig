@@ -1,0 +1,20 @@
+{# templates/macros.html.twig (versione ottimizzata) #}
+{% macro breadcrumbs(breadcrumbs) %}
+    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb">
+            {% for breadcrumb in breadcrumbs %}
+                {# Se NON è l'ultimo elemento, crea un link #}
+                {% if not loop.last %}
+                    <li class="breadcrumb-item">
+                        <a href="{{ path(breadcrumb.route) }}" data-turbo-preload>{{ breadcrumb.name }}</a>
+                    </li>
+                {% else %}
+                    {# Altrimenti, è l'ultimo elemento: rendilo "attivo" e non cliccabile #}
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ breadcrumb.name }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    </nav>
+{% endmacro %}
