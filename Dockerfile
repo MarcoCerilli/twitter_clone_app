@@ -1,19 +1,16 @@
-# --- Stage 1: Build delle dipendenze e del codice ---
+# --- Stage 1: Build delle dipendenze ---
 FROM composer:2 as vendor
-
 WORKDIR /app
-
-# PRIMA copiamo TUTTI i file dell'applicazione
 COPY . .
-
-# ORA lanciamo composer install, SENZA script
+# Passiamo l'argomento APP_ENV per ottimizzare l'autoloader per la produzione
+ARG APP_ENV=prod
 RUN composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
-
 
 # --- Stage 2: Crea l'immagine finale di produzione ---
 FROM php:8.3-apache
 
 # Impostiamo le variabili d'ambiente di produzione di Symfony
+# Questo dice a Symfony di non cercare il file .env
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
@@ -32,9 +29,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 RUN a2enmod rewrite
 
-# Copiamo l'applicazione già pronta (con la cartella vendor inclusa) dallo stage precedente
+# Copiamo l'applicazione già pronta dallo stage precedente
 WORKDIR /var/www/html
 COPY --from=vendor /app .
 
-# Impostiamo i permessi corretti (NON creiamo più la cache qui)
+# Impostiamo i permessi corretti
 RUN chown -R www-data:www-data var
