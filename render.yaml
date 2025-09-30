@@ -1,24 +1,12 @@
+# Exported from Render on 2025-09-30T09:30:17Z
+version: "1"
 services:
-  # La nostra applicazione web Symfony
-  - type: web
-    name: symfony-twitter-clone
-    plan: free
-    runtime: php
-    buildCommand: |
-      composer install --no-dev --no-interaction --optimize-autoload
-      php bin/console doctrine:migrations:migrate --no-interaction
-    startCommand: vendor/bin/heroku-php-apache2 public/
-    envVars:
-      - key: APP_ENV
-        value: prod
-      - key: APP_SECRET
-        generateValue: true
-      - key: DATABASE_URL
-        fromDatabase:
-          name: symfony-db
-          property: connectionString
-
-databases:
-  # Il nostro database PostgreSQL gratuito
-  - name: symfony-db
-    plan: free
+- type: web
+  name: Symfony-App
+  runtime: docker
+  repo: https://github.com/MarcoCerilli/Symfony-App
+  plan: free
+  region: frankfurt
+  dockerContext: .
+  dockerfilePath: ./Dockerfile
+  autoDeployTrigger: commit
