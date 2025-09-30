@@ -1,17 +1,22 @@
-# --- Stage 1: Installa le dipendenze con Composer ---
+# --- Stage 1: Build delle dipendenze e del codice ---
 FROM composer:2 as vendor
 
 WORKDIR /app
 
-# PRIMA copiamo TUTTI i file dell'applicazione
+# Copiamo tutto il codice sorgente
 COPY . .
 
-# ORA lanciamo composer install, che troverà il file bin/console
-RUN composer install --no-dev --no-interaction --optimize-autoloader
+# Installiamo le dipendenze SENZA eseguire gli script post-installazione
+RUN composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
 
 
 # --- Stage 2: Crea l'immagine finale di produzione ---
 FROM php:8.3-apache
+
+# Impostiamo le variabili d'ambiente di produzione di Symfony
+# Questo dice a Symfony di non cercare il file .env
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
 
 # Installiamo le estensioni PHP necessarie
 RUN apt-get update && apt-get install -y \
@@ -28,9 +33,12 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 RUN a2enmod rewrite
 
-# Copiamo l'applicazione GIA PRONTA (con la cartella vendor inclusa) dallo stage precedente
+# Copiamo l'applicazione già pronta (con la cartella vendor inclusa) dallo stage precedente
 WORKDIR /var/www/html
 COPY --from=vendor /app .
+
+# Creiamo la cache di Symfony in modo sicuro per la produzione
+RUN bin/console cache:warmup
 
 # Impostiamo i permessi corretti
 RUN chown -R www-data:www-data var
