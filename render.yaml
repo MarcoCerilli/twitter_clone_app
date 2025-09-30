@@ -3,7 +3,7 @@ services:
   - type: web
     name: symfony-twitter-clone
     plan: free
-    env: php
+    runtime: php
     buildCommand: |
       composer install --no-dev --no-interaction --optimize-autoload
       php bin/console doctrine:migrations:migrate --no-interaction
