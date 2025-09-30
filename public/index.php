@@ -2,6 +2,9 @@
 
 use App\Kernel;
 
+Symfony\Component\HttpFoundation\Request::setTrustedProxies(['127.0.0.1', 'REMOTE_ADDR'], Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO);
+
+
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function (array $context) {
