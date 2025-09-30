@@ -1,8 +1,5 @@
 services:
-  - type: postgres
-    name: symfony-db
-    plan: free
-
+  # La nostra applicazione web Symfony
   - type: web
     name: symfony-twitter-clone
     plan: free
@@ -17,7 +14,11 @@ services:
       - key: APP_SECRET
         generateValue: true
       - key: DATABASE_URL
-        fromService:
-          type: postgres
+        fromDatabase:
           name: symfony-db
           property: connectionString
+
+databases:
+  # Il nostro database PostgreSQL gratuito
+  - name: symfony-db
+    plan: free
