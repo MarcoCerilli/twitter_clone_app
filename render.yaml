@@ -1,10 +1,8 @@
 services:
-  # Il nostro database PostgreSQL gratuito
   - type: postgres
     name: symfony-db
     plan: free
 
-  # La nostra applicazione web Symfony
   - type: web
     name: symfony-twitter-clone
     plan: free
