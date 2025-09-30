@@ -1,6 +1,6 @@
 services:
     # Il nostro database PostgreSQL gratuito
-    - type: psql
+    - type: postgres
       name: symfony-db
       plan: free
 
