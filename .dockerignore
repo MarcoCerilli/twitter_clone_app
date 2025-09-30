@@ -1,0 +1,19 @@
+# Git
+.git/
+.github/
+
+# Symfony Cache & Logs
+var/
+
+# Dipendenze che vengono reinstallate
+vendor/
+node_modules/
+
+# File di configurazione locali
+.env
+.env.*
+docker-compose.yml
+render.yaml
+
+# File del sistema operativo
+.DS_Store
