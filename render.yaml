@@ -1,31 +1,25 @@
 services:
-    # Il nostro database PostgreSQL gratuito
-    - type: postgres
-      name: symfony-db
-      plan: free
+  # Il nostro database PostgreSQL gratuito
+  - type: postgres
+    name: symfony-db
+    plan: free
 
-    # La nostra applicazione web Symfony
-    - type: web
-      name: symfony-twitter-clone
-      plan: free
-      # Eseguito con l'ambiente di produzione
-      env: php
-      # Comandi da eseguire durante la build
-      buildCommand: |
-          composer install --no-dev --no-interaction --optimize-autoloader
-          php bin/console doctrine:migrations:migrate --no-interaction
-      # Comando per avviare il server
-      startCommand: vendor/bin/heroku-php-apache2 public/
-      envVars:
-          # Imposta l'ambiente di Symfony su 'prod'
-          - key: APP_ENV
-            value: prod
-          # Genera una chiave segreta per la produzione
-          - key: APP_SECRET
-            generateValue: true
-          # Collega il database all'app
-          - key: DATABASE_URL
-            fromService:
-                type: psql
-                name: symfony-db
-                property: connectionString
+  # La nostra applicazione web Symfony
+  - type: web
+    name: symfony-twitter-clone
+    plan: free
+    env: php
+    buildCommand: |
+      composer install --no-dev --no-interaction --optimize-autloader
+      php bin/console doctrine:migrations:migrate --no-interaction
+    startCommand: vendor/bin/heroku-php-apache2 public/
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: APP_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromService:
+          type: postgres
+          name: symfony-db
+          property: connectionString
