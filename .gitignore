@@ -1,15 +1,18 @@
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-#/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
+# Dipendenze
 /vendor/
-###< symfony/framework-bundle ###
-
-###> pentatrion/vite-bundle ###
 /node_modules/
-/public/build/
-###< pentatrion/vite-bundle ###
 
+# File generati dalla build
+/public/build/
+
+# File di cache e log di Symfony
+/var/
+
+# File di configurazione locale con segreti
+.env.local
+.env.*.local
+.env.dev
+
+
+# File caricati dagli utenti (se usi lo storage locale)
+/public/uploads/
