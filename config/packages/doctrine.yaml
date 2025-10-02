@@ -4,7 +4,7 @@ doctrine:
 
         # ↓↓↓ QUESTA RIGA È STATA CORRETTA ↓↓↓
         # Impostiamo la versione corretta per MariaDB/MySQL usata da Railway
-        server_version: 'mariadb-10.11'
+        server_version: 'mariadb-10.11.2'
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
