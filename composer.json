@@ -8,6 +8,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-xml": "*",
+        "ext-pdo_mysql": "*",
+        "ext-intl": "*",
         "doctrine/dbal": "^3.10.2",
         "doctrine/doctrine-bundle": "^2.16.2",
         "doctrine/doctrine-migrations-bundle": "^3.4.2",

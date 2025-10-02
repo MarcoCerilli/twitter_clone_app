@@ -1,7 +1,0 @@
-# nixpacks.toml
-
-[phases.setup]
-pkgs = [
-  "php82Packages.pdo_mysql",
-  "php82Packages.intl"
-]
